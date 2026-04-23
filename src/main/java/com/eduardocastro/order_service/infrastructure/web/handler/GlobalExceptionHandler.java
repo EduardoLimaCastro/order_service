@@ -1,5 +1,7 @@
 package com.eduardocastro.order_service.infrastructure.web.handler;
 
+import com.eduardocastro.order_service.domain.exception.CartNotFoundException;
+import com.eduardocastro.order_service.domain.exception.InvalidCartDataException;
 import com.eduardocastro.order_service.domain.exception.InvalidOrderDataException;
 import com.eduardocastro.order_service.domain.exception.OrderNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidOrderDataException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public Map<String, String> handleInvalidData(InvalidOrderDataException ex) {
+        return Map.of("error", ex.getMessage());
+    }
+
+    @ExceptionHandler(CartNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Map<String, String> handleCartNotFound(CartNotFoundException ex) {
+        return Map.of("error", ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidCartDataException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public Map<String, String> handleInvalidCartData(InvalidCartDataException ex) {
         return Map.of("error", ex.getMessage());
     }
 
